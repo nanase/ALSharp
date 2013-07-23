@@ -171,11 +171,13 @@ namespace ALSharp.Streams
         {
             int bytes;
             int totalBytes = 0;
-            while (totalBytes < buffer.Length && (bytes = stream.Read(buffer, totalBytes, buffer.Length - totalBytes)) > 0)
-            {
+            int length = buffer.Length;
+
+            while (totalBytes < length && (bytes = stream.Read(buffer, totalBytes, length - totalBytes)) > 0)
                 totalBytes += bytes;
-            }
+            
             audioBuffer.BufferData(stream.Format, stream.Frequency, buffer, totalBytes);
+
             return totalBytes;
         }
 

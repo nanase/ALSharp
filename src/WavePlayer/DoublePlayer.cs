@@ -20,7 +20,7 @@ namespace ALSharp
             this.buffer = new double[this.settings.BufferSize / (this.settings.BitPerSample / 8)];
         }
 
-        public override int WaveGenerate(byte[] buffer, int offset, int count)
+        public override int Generate(byte[] buffer, int offset, int count)
         {
             int bufferedCount;
 

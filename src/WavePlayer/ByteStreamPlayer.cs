@@ -22,7 +22,7 @@ namespace ALSharp
             this.stream = stream;
         }
 
-        public override int WaveGenerate(byte[] buffer, int offset, int count)
+        public override int Generate(byte[] buffer, int offset, int count)
         {
             int bufferedCount;
 

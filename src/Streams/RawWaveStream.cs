@@ -165,12 +165,7 @@ namespace ALSharp.Streams
 
 		public override int Read (byte[] buffer, int offset, int count)
 		{
-			if (this.Reading != null)
-				return this.Reading (buffer, offset, count);
-			else
-			{
-				return 0;
-			}
+            return (this.Reading != null) ? this.Reading(buffer, offset, count) : 0;
 		}
 
 		public override long Seek (long offset, System.IO.SeekOrigin origin)

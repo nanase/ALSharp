@@ -33,7 +33,7 @@ namespace ALSharp
             this.baseStream = new RawWaveStream(this.settings.BitPerSample, this.settings.SamplingFrequency, this.settings.ChannelCount);
             this.audioSource = new AudioSource();
 
-            this.baseStream.Reading += WaveGenerate;
+            this.baseStream.Reading += Generate;
         }
 
         public void Play()
@@ -42,7 +42,7 @@ namespace ALSharp
             {
                 this.basePlayer = new AudioStreamPlayer(this.baseStream, this.audioSource, this.settings.BufferSize, this.settings.BufferCount);
                 this.basePlayer.Play();
-                this.updater = Task.Factory.StartNew(this.UpdaterProcess, TaskCreationOptions.LongRunning);
+                this.updater = Task.Factory.StartNew(this.Update, TaskCreationOptions.LongRunning);
             }
         }
 
@@ -58,9 +58,9 @@ namespace ALSharp
             }
         }
 
-        public abstract int WaveGenerate(byte[] buffer, int offset, int count);
+        public abstract int Generate(byte[] buffer, int offset, int count);
 
-		private void UpdaterProcess()
+		private void Update()
 		{
 			while (this.basePlayer.Playing)
 			{
