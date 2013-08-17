@@ -6,19 +6,19 @@ using ALSharp.Streams;
 
 namespace ALSharp
 {
-	public abstract class WavePlayer : IDisposable
-	{
-		readonly private RawWaveStream baseStream;
-		readonly private AudioSource audioSource;		
-		readonly protected PlayerSettings settings;
+    public abstract class WavePlayer : IDisposable
+    {
+        readonly private RawWaveStream baseStream;
+        readonly private AudioSource audioSource;
+        readonly protected PlayerSettings settings;
 
         private AudioStreamPlayer basePlayer;
         private Task updater;
 
-		public AudioStreamPlayer BasePlayer { get { return this.basePlayer; } }
-		public RawWaveStream BaseStream { get { return this.baseStream; } }
-		public AudioSource AudioSource { get { return this.audioSource; } }
-		public PlayerSettings Settings { get { return this.settings; } }
+        public AudioStreamPlayer BasePlayer { get { return this.basePlayer; } }
+        public RawWaveStream BaseStream { get { return this.baseStream; } }
+        public AudioSource AudioSource { get { return this.audioSource; } }
+        public PlayerSettings Settings { get { return this.settings; } }
 
         public WavePlayer()
             : this(new PlayerSettings())
@@ -28,7 +28,7 @@ namespace ALSharp
         public WavePlayer(PlayerSettings settings)
         {
             OpenAL.AlutInit();
-            this.settings = settings;            
+            this.settings = settings;
 
             this.baseStream = new RawWaveStream(this.settings.BitPerSample, this.settings.SamplingFrequency, this.settings.ChannelCount);
             this.audioSource = new AudioSource();
@@ -60,24 +60,26 @@ namespace ALSharp
 
         public abstract int Generate(byte[] buffer, int offset, int count);
 
-		private void Update()
-		{
-			while (this.basePlayer.Playing)
-			{
-				this.basePlayer.Update();
-				Thread.Sleep(this.settings.UpdateInterval);
-			}
-		}
+        private void Update()
+        {
+            while (this.basePlayer.Playing)
+            {
+                this.basePlayer.Update();
+                Thread.Sleep(this.settings.UpdateInterval);
+            }
+        }
 
-		public void Dispose()
-		{
+        public void Dispose()
+        {
             this.Stop();
 
-			this.basePlayer.Dispose();
-			this.audioSource.Dispose();
-			this.baseStream.Dispose();
+            if (this.basePlayer != null)
+                this.basePlayer.Dispose();
 
-			OpenAL.AlutExit();
-		}
-	}
+            this.audioSource.Dispose();
+            this.baseStream.Dispose();
+
+            OpenAL.AlutExit();
+        }
+    }
 }

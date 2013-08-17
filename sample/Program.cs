@@ -17,10 +17,8 @@ namespace sample
                 return count;
             };
 
-            using (var player = new DoublePlayer(process, new PlayerSettings() { SamplingFrequency =  }))
+            using (var player = new DoublePlayer(process))
             {
-                player.Play();
-                Console.ReadKey(true);
             }
         }
     }
